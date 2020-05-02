@@ -1,0 +1,30 @@
+import java.io.*;
+import java.util.*;
+
+public class Main{
+
+public static void main(String[] args) throws Exception {
+    Scanner scn = new Scanner(System.in);
+    int n= scn.nextInt();
+    int dp[] = new int[n+1];
+    int fib = fibonacci(n,dp);
+    System.out.println(fib);
+    // write your code here
+ }
+
+static int fibonacci(int n,int[] dp){
+    if(n==0 || n==1 ){
+        return n;
+    }
+    if(dp[n]!=0){
+        return dp[n];
+    }
+    int fnm1 = fibonacci(n-1,dp);
+    int fnm2 = fibonacci(n-2,dp);
+    int fib = fnm1 + fnm2;
+    dp[n] = fib;
+    return fib;
+    
+}
+
+}

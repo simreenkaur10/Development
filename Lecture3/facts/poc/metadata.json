@@ -1,0 +1,31 @@
+[
+    {
+         "module" : "Dynamic Programming",
+         "lecture": "Dynamic Programming and Greedy",
+         "question" : "Fibonacci-dp",
+         "path" : "./Codes/c2.txt"
+
+    },
+    {
+        "module" : "Dynamic Programming",
+        "lecture": "Dynamic Programming and Greedy",
+        "question" : "Climb Stairs",
+        "path" : "./Codes/c1.txt"
+
+   },
+   {
+    "module" : "Data Structure and Algorithms",
+    "lecture": "Recursion",
+    "question" : "Factorial",
+    "path" : "./Codes/c3.txt"
+
+},
+
+{
+    "module" : "Data Structure and Algorithms",
+    "lecture": "Recursion",
+    "question" : "Print Decreasing",
+    "path" : "./Codes/c4.txt"
+
+}
+]

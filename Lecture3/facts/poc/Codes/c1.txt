@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        System.out.println(paths(n,new int[n+1]));
+        // int no = paths(0,new int[n+1]);
+        // System.out.println(no);
+        // write your code here
+    }
+//     static int paths(int n, int[] dp){
+//         int target = dp.length;
+//         if(n==target){
+//         return 1;
+//         }
+        
+//             if(dp[n]!=0){
+//                 return dp[n];
+//             }
+//         int totalways=0;
+//     for(int step =1;step<=3 && step+n<=target;step ++ ){
+//         totalways+=paths(n+step,dp);
+//     }
+    
+//     dp[n]=totalways;
+    
+//         return dp[n];
+//     }
+// }
+
+static int paths(int n, int[] dp){
+    if(n==0){
+        return 1;
+    }
+    if(dp[n]!=0){
+        return dp[n];
+    }
+    int totalways =0;
+    for(int i=1;i<=3 && n-i>=0;i++){
+      totalways+=paths(n-i,dp);    
+    }
+        dp[n]=totalways;
+        return dp[n];
+}
+}
