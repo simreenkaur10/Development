@@ -1,1 +1,1 @@
-node "MODpuppeteer.js" "./credentials.js"
+node "MODpuppeteer.js" "./credentials.json" "vomopab616"

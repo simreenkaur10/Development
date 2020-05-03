@@ -1,1 +1,1 @@
-node HackerRankauto.js "credentials.json" "./questions.js"
+node addingTestcases.js "credentials.json" "./questions.js"

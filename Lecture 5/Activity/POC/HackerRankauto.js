@@ -17,7 +17,7 @@ await loginPage(credentials)
     let  useroptions = await driver.findElement(swd.By.css(".dropdown.dropdown.dropdown-auth.profile-menu.cursor.theme-m-content"))
     await useroptions.click();
     let adminAnchor = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"))
-     await adminAnchor.click();
+     await adminAnchor.click();       
     //    let manageTabs = await driver.findElements(swd.By.css(".administration header ul li"));
     //    await manageTabs[1].click();
     await removeLoader();
