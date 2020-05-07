@@ -9,6 +9,12 @@ let driver = bldr.forBrowser("chrome").build();
 
 (async function(){
     try{
+
+        await driver.manage().setTimeouts({
+            implicit:30000,
+            pageLoad:30000
+        })
+        
     await login(cFile);
     
     //************WELCOME TO DASHBOARD**************/
@@ -38,20 +44,20 @@ async function getMeTheElement(ques,challangeUrl){
     let questionIndexonTheFoundPage = ques%10;
     await driver.get(challangeUrl)
     await removeLoader();
-    let paginations = await driver.findElement(swd.By.css(".pagination li"))
+    let paginations = await driver.findElements(swd.By.css(".pagination li"))
     let nextButton = paginations[paginations.length-2]
-    let className = nextButton.getAttribute("class");
+    let className = nextButton.getAttribute("class")
     for(let i=0; i<pageNo;i++){
         if(className=="disabled"){
             return null;
         }
         await nextButton.click();
         removeLoader();
-        paginations = driver.findElement(swd.By.css(".pagination li"))
+        paginations = (await driver).findElements(swd.By.css(".pagination li"))
         nextButton = paginations[paginations.length-2]
         className = nextButton.getAttribute("class");
     }
-    let  listOfQuestions = await driver.findElement(".backbone.block-center")
+    let  listOfQuestions = await (await driver).findElements(swd.By.css(".backbone.block-center"))
     if(listOfQuestions.length>questionIndexonTheFoundPage){
         return listOfQuestions[questionIndexonTheFoundPage];
     }
@@ -67,27 +73,34 @@ async function removeLoader(){
 async function addTests(qElement,question){
     let tests = question["Testcases"];
     await qElement.click();
-    removeLoader();
+    await removeLoader();
+    await driver.wait(swd.until.elementLocated(swd.By.css("span.tag")))
+    await removeLoader();
     let testsTab = await driver.wait(swd.until.elementLocated(swd.By.css("li[data-tab=testcases]")))
    await testsTab.click();
    await removeLoader();
    for(let i=0;i<tests.length;i++){
-   let addingtest = await driver.wait(swd.until.elementLocated(swd.By.css(".btn.add-testcase.btn-green")))
+   await driver.wait(swd.until.elementLocated(swd.By.css(".btn.add-testcase.btn-green")))
+   let addingtest = await driver.findElement(swd.By.css(".btn.add-testcase.btn-green"));
    await addingtest.click();
-   let inputelement = await driver.findElement(swd.By.css(".CodeMirror-wrap div textarea"))
-  await handleEditorial(".CodeMirror-wrap div",childelement,tests[i].Input)
-   let outputelement = await driver.findElement(swd.By.css(".formgroup.horizontal.input-testcase-row.row .CodeMirror-wrap div textarea"))
-   await handleEditorial(".formgroup.horizontal.input-testcase-row.row .CodeMirror-wrap div",outputelement,tests[i].Output)
+   let inputelement = await driver.findElement(swd.By.css(".input-testcase-row .CodeMirror-wrap div textarea"))
+  await handleEditorial(".input-testcase-row .CodeMirror-wrap div",inputelement,tests[i].Input)
+   let outputelement = await driver.findElement(swd.By.css(".output-testcase-row .CodeMirror-wrap div textarea"))
+   await handleEditorial(".output-testcase-row .CodeMirror-wrap div",outputelement,tests[i].Output)
   let button = await driver.findElement(swd.By.css(".save-testcase"))
   await button.click();
-  await removeLoader();
+  
+   let ctime=Date.now();
+ while(Date.now()<=ctime+4000){
+     
+ }
 }
 let saveButton = await driver.findElement(swd.By.css(".save-challenge.btn"))
  await saveButton.click();
 }
 async function handleEditorial(parent,element,data){
-    let parentElement = await driver.findElements(swd.By.css(parent))
-    await driver.executeScript("arguments[0].style.height='10px'",parent)
+    let parentElement = await driver.findElement(swd.By.css(parent))
+    await driver.executeScript("arguments[0].style.height='10px'",parentElement)
 await element.sendKeys(data)
 }
 

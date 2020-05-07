@@ -1,0 +1,1 @@
+node Facebook2.js "credentials.json" "./data.js"

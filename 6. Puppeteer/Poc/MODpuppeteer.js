@@ -7,7 +7,7 @@ let credentialsFile = process.argv[2];
     try{
     let browser = await puppeteer.launch({
         headless : false,
-        defaultViewport : null,
+        defaultViewport : null
         
     })
 
