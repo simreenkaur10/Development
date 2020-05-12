@@ -1,0 +1,1 @@
+node linkedIn.js "credentials.json" "C:\Users\Compaq\Desktop\DEVELOPMENT\Project\jobs" 30 "Delhi" "Bengaluru"
