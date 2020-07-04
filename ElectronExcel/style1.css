@@ -1,0 +1,83 @@
+head,body{
+    padding: 0px;
+    margin: 0px;
+}
+*{
+    box-sizing: border-box;
+ }
+
+.menu{
+    height: 22px;
+    border: 1px solid red;
+    background-color: peachpuff;
+ }
+.menu-options {
+        height: 56px;
+        border: 1px solid coral;
+        background-color: #8fe62a;
+}
+.formula-bar {
+    height: 26px;
+    border: 1px solid #673AB7;
+    background-color: #7ecccc;
+}
+input[type="text"]{
+    background-color: paleturquoise;
+}
+.cell-container {
+    height: calc(100vh - 124px);
+    border: 2px solid #9C27B0;
+    background-color: rgb(214, 195, 232);
+    overflow: auto;
+    position: relative;
+}
+.top-left-cell {
+    height: 25px;
+    width: 25px;
+    border: 1px solid;
+    background-color: burlywood;
+}
+.top-row {
+    display: flex;
+    position: absolute;
+    background-color: antiquewhite;
+    left: 25px;
+    top: 0px;
+}
+.top-row>.cell{
+    height: 25px;
+    border: 1px solid black;
+    width: 90px;
+    text-align: center;
+}
+.left-col{
+    position: absolute;
+    top: 25px;
+}
+.left-col>.cell{
+    height:25px;
+    width: 25px;
+    border: 1px solid black;
+    text-align: center;
+    background-color: burlywood;
+}
+.grid{
+    position: absolute;
+    left: 25px;
+    top: 25px;
+}
+.row{
+    display: flex;
+}
+.row>.cell{
+    min-width: 90px;
+    border: 1px solid;
+    min-height: 25px;
+    text-align: center;
+}
+.sheets {
+    height: 20px;
+    border: 1px solid blue;
+    background-color: #E91E63;
+}
+

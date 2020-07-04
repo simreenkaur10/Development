@@ -25,7 +25,7 @@ function createWindow() {
             nodeIntegration: true
         }
     })
-    win.loadFile("index.ejs").then(function () {
+    win.loadFile("index1.ejs").then(function () {
         // console.log("App Loaded successfully");
         win.maximize();
         win.show();

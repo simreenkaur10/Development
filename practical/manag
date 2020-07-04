@@ -1,0 +1,16 @@
+  Cookies 
+
+.Cookies
+Cookie ck = new Cookie("username",name);
+ck.setMaxAge(1000000); 
+response.addCookie(ck); 
+Cookie[] cks = request.getCookies(); 
+
+HTML Hidden Field
+
+<input type="hidden" name="username" value="Simreen">  
+
+We can also use the API for session management which is ready to use.
+
+URL Rewriting
+url?name1=value1&name2=value2&??

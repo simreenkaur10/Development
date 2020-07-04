@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="menu">
+        <div class="menu-items ib" id="File">File</div>
+        <div class="menu-items ib" id="Home">Home</div>
+    </div>
+    <div class="menu-options">
+        <div id="File-options" class="menu-options-item">
+            <div id="New" class="ib">New</div>
+            <div id="Open" class="ib">Open</div>
+            <div id="Save" class="ib">Save</div>
+        </div>
+        <div id="Home-options" class="menu-options-item">Home Options</div>
+    </div>
+    
+    <div class="formula-bar">Formula Bar
+        <input type="text"
+        id="address-container">
+        <input type="text">
+    </div>
+    <div class="cell-container">
+    <div id="top-left-cell" class="top-left-cell">
+    </div>
+    <div id="top-row" class="top-row">
+        <%for(let j=0;j<cols;j++){%>
+    <div class="cell">
+        <%=String.fromCharCode(j+65)%>
+    </div>
+    <%}%>
+    </div>
+    <div id="left-col" class="left-col">
+        <%for(let i=1;i<=rows;i++){%>
+            <div class="cell">
+        <%=i%>
+            </div>            
+            <%}%>
+    </div>
+
+    <div class="grid" id="grid">
+    <%for(let i=1;i<=rows;i++){%>
+        <div class="row">
+            <%for(let j=0;j<cols;j++){%>
+                <div class="cell" contenteditable="true" row-id=<%=i%> col-id=<%=j%>>
+            </div>
+            <%}%>
+        </div>
+        <%}%>
+    </div>
+</div>
+    <div class="sheets">Sheets</div>
+<script src = "index.js">
+    </script>
+</body>
+
+</html>
