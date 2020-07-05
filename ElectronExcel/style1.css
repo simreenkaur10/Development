@@ -11,6 +11,11 @@ head,body{
     border: 1px solid red;
     background-color: peachpuff;
  }
+.ib{
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+}
 .menu-options {
         height: 56px;
         border: 1px solid coral;
