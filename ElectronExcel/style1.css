@@ -21,6 +21,12 @@ head,body{
         border: 1px solid coral;
         background-color: #8fe62a;
 }
+.menu-options-item{
+    display: none;
+}
+.selected{
+    display: block;
+}
 .formula-bar {
     height: 26px;
     border: 1px solid #673AB7;
@@ -83,6 +89,7 @@ input[type="text"]{
 .sheets {
     height: 20px;
     border: 1px solid blue;
-    background-color: #E91E63;
+    background-color: rgb(205, 63, 129);
+    color:blue;
 }
 
