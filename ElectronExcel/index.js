@@ -8,7 +8,7 @@ $(document).ready(
             let rid = Number($(this).attr("rid"));
             let cid = Number($(this).attr("cid"));
             let calpha = String.fromCharCode(cid + 65);
-            $("#address-container").val(calpha + rid);
+            $("#address-container").val(calpha + (rid + 1));
         })
 
         $(".menu-item").on("click", function () {
@@ -26,15 +26,18 @@ $(document).ready(
             let cells = $(rows[i]).find(".cell")
             for(let j=0;j<cells.length;j++){
                 $(cells[j]).html("");
-                let cell = "";
+                let cell = { val:"" ,
+                        formula:"",
+                        children:[]
+                           };
                 row.push(cell);
             }
             db.push(row);
         }
         })
         $(".save").on("click",function(){
-        let path = dialog.showOpenDialogSync();
-        fs.writeFileSync(path[0],JSON.stringify(db));
+        let path = dialog.showSaveDialogSync();
+        fs.writeFileSync(path,JSON.stringify(db))
         })
         $(".open").on("click",function(){
         let path = dialog.showOpenDialogSync();
@@ -44,113 +47,87 @@ $(document).ready(
         for(let i=0;i<rows.length;i++){
             let cells = $(rows[i]).find(".cell");
             for(let j=0;j<cells.length;j++){
-                $(cells[j]).html(dbs[i][j]);
+                $(cells[j]).html(dbs[i][j].val);
             }
         }
          })
         
-         $(".grid .cell").on("blur",function(){
-            //updated db
-        console.log("cell fn")
-        let {rowId , colId} = getRc(this);
-        let cellObject = getCellObject(rowId,colId);
-        if($(this).html()==cellObject.value ){
-            return
-        }
-        cellObject.value = $(this).html();
-        //updateCell => update self // children(UI changes)
-        updateCell(rowId,colId,$(this).html(),cellObject);
-        //console.log(db)
-        } )
-        $("#formula-container").on("blur", function (){
-        let address = $("#address-container").val();
-        //gives us the selected cell
-        let { rowId, colId } = getRcFromAddress(address);
-        //getting the row id & col id
-
-        let cellObject = getCellObject(rowId, colId);
+        $(".grid .cell").on("blur",function(){
+        //updated db
+        let ri = $(this).attr("rid");
+        let ci = $(this).attr("cid");
+        let cellObject = db[ri][ci];
+        cellObject.formula = "";
+        updateCellInformation(cellObject,$(this).html(),ri,ci);
+        })
+        $("#formula-container").on("blur",function(){
+        //fetch the formula
         let formula = $(this).val();
+        //find the cell 
+        //on which you want to apply the formula    
+        let cellAddress = $("#address-container").val();
+        // with the cellAddress we fetch its row id and col id
+        let {rowid,colid} = getRowColFromAlphabet(cellAddress);
+        let cellObject = db[rowid][colid];
+        // fetch the cell object from database
         cellObject.formula = formula;
-        // set formula
-        let eValuatedVal = evaluate(cellObject);
-        updateCell(rowId, colId, eValuatedVal, cellObject);
-
-        // setUpFormula(rowId, colId, formula);
-        // evaluate
-        // update cell
-    })
-
-        function evaluate(cellObject) {
-        let formula = cellObject.formula;
+        //set formula
+        fillParentAndChildren(formula,rowid,colid);
+        let ans = evaluate(cellObject);
+        updateCellInformation(cellObject,ans,rowid,colid);
+        })
+        function fillParentAndChildren(formula,rowid,colid){
         // ( A1 + A2 )
-        let formulaComponent = formula.split(" ");
-        // [( ,A1,+,A2,)]
-        for (let i = 0; i < formulaComponent.length; i++) {
-            let code = formulaComponent[i].charCodeAt(0);
-            if (code >= 65 && code <= 90) {
-                let parentRc = getRcFromAddress(formulaComponent[i]);
-
-                let fParent = db[parentRc.rowId][parentRc.colId];
-                let value = fParent.value;
-                formula = formula.replace(formulaComponent[i], value)
+        //we will split it and then we will get these tokens
+        // [ ( , A1 , + , A2 , ) ]
+        let components = formula.split(" ");
+        for(let i=0;i<components.length;i++){
+        let charCode = components[i].charCodeAt(0);
+        if(charCode>=65 && charCode<=90){
+            let parentRC = getRowColFromAlphabet(components[i]);
+            let parentObject = db[parentRC.rowid][parentRC.colid];
+            parentObject.children.push({rowid,colid});
+                }
             }
-
         }
-        // ( 10 + 20 )
+        function updateCellInformation(cellObject,ans,rowid,colid){
+        
+        cellObject.val = ans;
+        $(`.row .cell[rid=${rowid}][cid=${colid}]`).html(ans);
+
+        for(let i=0;i<cellObject.children.length;i++){
+        //update your children
+        let childRowCol = cellObject.children[i];
+        let childObject = db[childRowCol.rowid][childRowCol.colid];
+        let newAnsOfChild = evaluate(childObject);
+        updateCellInformation(childObject,newAnsOfChild,childRowCol.rowid,childRowCol.colid);
+        }
+        return;
+        }
+        function evaluate(cellObject){
+        // ( A1 + A2 )
+        //we will split it and then we will get these tokens
+        // [ ( , A1 , + , A2 , ) ]
+        let formula = cellObject.formula
+        let components = formula.split(" ");
+        for(let i=0;i<components.length;i++){
+            let charCode = components[i].charCodeAt(0);
+        if(charCode>=65 && charCode<=90){
+            let {rowid,colid}= getRowColFromAlphabet(components[i]);
+            let parentObject = db[rowid][colid];
+            let value = parentObject.val;
+            formula = formula.replace(components[i],value);
+        }
+        }
         console.log(formula);
-        let ans = eval(formula);
-        console.log(ans);
-        return ans;
-        // console.log(formula)
-        // for (let i = 0; i < cellObject.upstream.length; i++) {
-        //     let suo = cellObject.upstream[i];
-        //     let fParentObject = db[suo.rowId][suo.colId];
-        //     let val = fParentObject.value;
-        //     // formula => replace A1 => 10
-        //     let colAlpha = String.fromCharCode(suo.colId + 65);
-        //     let rowNumber = suo.rowId + 1;
-        //     let charMeParent = colAlpha + rowNumber;
-        //     formula = formula.replace(charMeParent, val);
-        // }
-        // console.log(formula);
-        // let ans = eval(formula);
-        // console.log(ans);
-        // return ans;
-    }
-        function updateCell(rowId, colId, val, cellObject) {
-        // update yourself
-        $(`.grid .cell[rid=${rowId}][cid=${colId}]`).html(val);
-        cellObject.value = val;
-
-        // dependent 
-        // let cellObject = getCellObject(rowId, colId);
-        // for (let i = 0; i < cellObject.downstream.length; i++) {
-        //     let schild = cellObject.downstream[i];
-        //     let fChildObj = db[schild.rowId][schild.colId];
-        //     let eValuatedVal = evaluate(fChildObj);
-        //     updateCell(schild.rowId, schild.colId, eValuatedVal)
-
-        // }
-    }
-
-        function getRc(elem) {
-        let rowId = $(elem).attr("rid");
-        let colId = $(elem).attr("cid");
-        return {
-            rowId,
-            colId
+        return eval(formula);
         }
-    }
-        function getCellObject(rowId, colId) {
-        return db[rowId][colId];
-    }
-        function getRcFromAddress(address){
-        let colId = address.charCodeAt(0) - 65;
-        let rowId = Number(address.substring(1)) - 1;
-        return { colId, rowId };
-
-    }
-
+        
+        function getRowColFromAlphabet(cellAddress){
+            let colid =  cellAddress.charCodeAt(0)-65;
+            let rowid =  Number(cellAddress.substring(1)) - 1;
+            return {rowid,colid};
+        }
         function init(){
             $("#file").click();
             $(".new").trigger("click");
