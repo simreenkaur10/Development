@@ -52,7 +52,16 @@ $(document).ready(
             }
         }
          })
+        $(".cell-container").on("scroll",function(){
+        //scroll left fn...(this gives us the value(in pxl)scrolled in the horizontal direction)
+        let horizontalScroll = $(this).scrollLeft();
         
+        //scroll top fn...(this gives us the pixels scrolled in vertical direction)
+        let verticalScroll = $(this).scrollTop();
+        console.log(horizontalScroll+"    "+verticalScroll);
+        $(".top-left-cell, .left-col").css("left",horizontalScroll+"px")
+        $(".top-left-cell, .top-row").css("top",verticalScroll+"px")
+        })
         $(".grid .cell").on("blur",function(){
         //updated db
         let ri = $(this).attr("rid");
