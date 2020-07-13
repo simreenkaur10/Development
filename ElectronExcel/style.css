@@ -1,94 +1,99 @@
-html,body{
+head,body{
     padding: 0px;
     margin: 0px;
-    font-size: 1rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
 }
-*{box-sizing: border-box;
-}
-.menu {
+*{
+    box-sizing: border-box;
+ }
+
+.menu{
     height: 22px;
     border: 1px solid red;
+    background-color: peachpuff;
+ }
+.ib{
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+.ib:hover{
+    background-color: tan;
+    border: thin solid gold;
 }
 .menu-options {
-    height: 56px;
-    border: 2px solid green;
-}
-.menu-items{
-    width: 45px;
-    font-size: 90%;
-    text-align: center;
+        height: 56px;
+        border: 1px solid coral;
+        background-color: #8fe62a;
 }
 .menu-options-item{
     display: none;
 }
-.ib{
-    display: inline-block;
-}
 .selected{
     display: block;
 }
-#File-options>div{
-    width: 50px;
-    text-align: center;
-}
 .formula-bar {
     height: 26px;
-    border: 2px solid black;
+    border: 1px solid #673AB7;
+    background-color: #7ecccc;
+}
+input[type="text"]{
+    background-color: paleturquoise;
 }
 .cell-container {
     height: calc(100vh - 124px);
-    background: plum;
+    border: 2px solid #9C27B0;
+    background-color: rgb(214, 195, 232);
     overflow: auto;
     position: relative;
 }
-.top-left-cell{
+.top-left-cell {
     height: 25px;
     width: 25px;
-    background-color: gray;
-    position: absolute;
+    border: 1px solid;
+    background-color: burlywood;
 }
-.top-row{
-display: flex;
-position: absolute;
-left: 25px;
-top: 0px;
-height: 25px;
-text-align: center;
-background-color: lightgray;
-
+.top-row {
+    display: flex;
+    position: absolute;
+    background-color: antiquewhite;
+    left: 25px;
+    top: 0px;
 }
 .top-row>.cell{
-min-width: 87px;
-border: 1px solid;
+    height: 25px;
+    border: 1px solid black;
+    width: 90px;
+    text-align: center;
 }
 .left-col{
-position: absolute;
-top: 25px;
+    position: absolute;
+    top: 25px;
 }
 .left-col>.cell{
-width: 25px;
-height: 25px;
-background-color: lightslategray;
-border: 1px solid;
+    height:25px;
+    width: 25px;
+    border: 1px solid black;
+    text-align: center;
+    background-color: burlywood;
 }
 .grid{
-position: absolute;
-top: 25px;
-left: 25px;
+    position: absolute;
+    left: 25px;
+    top: 25px;
 }
 .row{
     display: flex;
 }
 .row>.cell{
-    text-align: center;
+    min-width: 90px;
     border: 1px solid;
-    min-width: 87px;
     min-height: 25px;
+    text-align: center;
 }
-
 .sheets {
     height: 20px;
-    border: 2px solid purple;
+    border: 1px solid blue;
+    background-color: rgb(205, 63, 129);
+    color:blue;
 }
