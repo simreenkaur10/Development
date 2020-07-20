@@ -29,8 +29,31 @@ head,body{
 .menu-options-item{
     display: none;
 }
+.menu-group {
+    width: 206px;
+    margin-top: 4px;
+    margin-left: 5px;
+}
+.menu-rows {
+    margin-bottom: 3px;
+}
+input#bg-color {
+    width: 55px;
+}
+input#text-color {
+    width: 55px;
+}
+select#font-size {
+    width: 55px;
+}
+.align {
+    width: 29px;
+}
+input[type="button"] {
+    font-weight: bold;
+}
 .selected{
-    display: block;
+    display: flex;
 }
 .formula-bar {
     height: 26px;

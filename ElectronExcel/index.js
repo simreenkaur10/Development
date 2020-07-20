@@ -2,22 +2,22 @@ const $ = require("jquery");
 const dialog = require("electron").remote.dialog;
 let fs = require("fs");
 $(document).ready(
-    function () {
+    function (){
         let db;
-        $(".grid .cell").on("click", function () {
+        $(".grid .cell").on("click", function (){
             let rid = Number($(this).attr("rid"));
             let cid = Number($(this).attr("cid"));
             let calpha = String.fromCharCode(cid + 65);
             $("#address-container").val(calpha + (rid + 1));
         })
 
-        $(".menu-item").on("click", function () {
+        $(".menu-item").on("click", function (){
             $(".menu-options-item").removeClass("selected");
             let id = $(this).attr("id");
-            //clicked attribute id
+            // clicked attribute id
             $(`#${id}-options`).addClass("selected");
         })
-       
+
         $(".new").on("click", function(){
         let rows = $(".row");
         db=[];
@@ -55,12 +55,10 @@ $(document).ready(
         $(".cell-container").on("scroll",function(){
         //scroll left fn...(this gives us the value(in pxl)scrolled in the horizontal direction)
         let horizontalScroll = $(this).scrollLeft();
-        
         //scroll top fn...(this gives us the pixels scrolled in vertical direction)
         let verticalScroll = $(this).scrollTop();
-        console.log(horizontalScroll+"    "+verticalScroll);
         $(".top-left-cell, .left-col").css("left",horizontalScroll+"px")
-        $(".top-left-cell, .top-row").css("top",verticalScroll+"px")
+        $(".top-left-cell, .top-row").css("top",verticalScroll + "px")
         })
         $(".grid .cell").on("blur",function(){
         //updated db
