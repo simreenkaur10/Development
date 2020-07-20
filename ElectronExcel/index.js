@@ -53,9 +53,9 @@ $(document).ready(
         }
          })
         $(".cell-container").on("scroll",function(){
-        //scroll left fn...(this gives us the value(in pxl)scrolled in the horizontal direction)
+        //scroll left fn....(this gives us the value(in pxl)scrolled in the horizontal direction)
         let horizontalScroll = $(this).scrollLeft();
-        //scroll top fn...(this gives us the pixels scrolled in vertical direction)
+        //scroll top fn....(this gives us the pixels scrolled in vertical direction)
         let verticalScroll = $(this).scrollTop();
         $(".top-left-cell, .left-col").css("left",horizontalScroll+"px")
         $(".top-left-cell, .top-row").css("top",verticalScroll + "px")
