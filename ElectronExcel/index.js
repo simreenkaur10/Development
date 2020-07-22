@@ -4,7 +4,13 @@ let fs = require("fs");
 $(document).ready(
     function (){
         let db;
+        let lsc;
         $(".grid .cell").on("click", function (){
+            if(lsc){
+            $(lsc).removeClass("selected-cell")
+            }
+            $(this).addClass("selected-cell");
+            lsc = this;
             let rid = Number($(this).attr("rid"));
             let cid = Number($(this).attr("cid"));
             let calpha = String.fromCharCode(cid + 65);
@@ -26,8 +32,10 @@ $(document).ready(
             let cells = $(rows[i]).find(".cell")
             for(let j=0;j<cells.length;j++){
                 $(cells[j]).html("");
-                let cell = { val:"" ,
+                let cell = {
+                        val:"" ,
                         formula:"",
+                        bold : "normal",
                         children:[],
                         parent:[]
                            };
@@ -155,8 +163,8 @@ $(document).ready(
             for(let i=0;i<cellObject.parent.length;i++){
                 let parentIRC = cellObject.parent[i];
                 let parentObject = db[parentIRC.rowid][parentIRC.colid];
-               let updatedParent = parentObject.children.filter(function(x){
-            // filter is used for filtering the children array
+                let updatedParent = parentObject.children.filter(function(x){
+                // filter is used for filtering the children array
                 return !(x.rowid==rowid && x.colid==colid)
                 //filter filters on the basis of the given condition
                 })
@@ -166,6 +174,23 @@ $(document).ready(
             // set the formula empty
             cellObject.parent = [];
             } 
+        $("#bold").on("click",function(){
+        $(this).toggleClass("highlight");
+        // if the class is already added, then it is removed and vice versa
+        let isBold = $(this).hasClass("highlight")
+        // it returns whether the bold is already pressed or not
+        $(".grid .cell.selected-cell").css("font-weight",(isBold)?"bold":"normal")
+        })   
+
+        $(".grid .cell").on("keydown",function(){
+            let height = $(this).outerHeight();
+            let rowid = $(this).attr("rid");
+            let leftcol = $(".left-col .cell");
+            let mycol = leftcol[rowid];
+            $(mycol).css("height",height);
+        })
+        
+
         function init(){
             $("#file").click();
             $(".new").trigger("click");

@@ -55,6 +55,9 @@ input[type="button"] {
 .selected{
     display: flex;
 }
+.highlight{
+    background-color: greenyellow;
+}
 .formula-bar {
     height: 26px;
     border: 1px solid #673AB7;
@@ -115,8 +118,9 @@ input[type="text"]{
 .row{
     display: flex;
 }
-.row>.cell{
+.row>.cell {
     min-width: 90px;
+    max-width: 90px;
     border: 1px solid;
     min-height: 25px;
     text-align: center;

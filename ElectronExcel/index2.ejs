@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+<div id="menu-bar" class="menu-bar">
+    <div id="file" class="menu sp">File</div>
+    <div id="home" class="menu sp">Home</div>
+</div>
+<div id="menu-options" class="menu-options-items">
+    <div id="file-menu-options" class="menu-options">
+        <div id="new" class="sp">New</div>
+        <div id="open" class="sp">Open</div>
+        <div id="save" class="sp">Save</div>
+    </div>
+    <div id="home-menu-options" class="menu-options">
+        Simreen is the best
+    </div>
+</div>
+<div id="formula-container">
+    <input type="text" id="cell-address">
+    <input type="text" id="formula-bar">
+</div>
+<div id="cell-container" class="cell-container">
+<div class="top-cell ib">
+
+</div>
+<div class="top-row ib">
+    <%for(let i = 0;i<cols;i++){%>
+        <div class="cell">
+            <%=String.fromCharCode(i+65)%>
+        </div>
+    <%}%>
+</div>
+<div class="left-col ib" id="left-col">
+    <%for(let i = 0;i<rows;i++){%>
+        <div class="cell leftc">
+            <%=(i+1)%>
+        </div>
+    <%}%>
+</div>
+<div id="grid" class="ib">
+<%for(let i = 0;i<rows;i++){%>
+    <div class="row">
+        <%for(let j=0;j<cols;j++){%>
+            <div class="cell" contenteditable="true" rid=<%=i%> cid=<%=j%>>
+                <%=""%>
+            </div>
+        <%}%>
+    </div>
+<%}%>
+</div>
+
+</div>
+<div id="sheets" class="sheets">sheets</div>
+<script src="index2.js"></script>
+</body>
+</html>
