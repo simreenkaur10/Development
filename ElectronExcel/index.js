@@ -7,12 +7,33 @@ $(document).ready(
         let lsc;
         $(".grid .cell").on("click", function (){
             if(lsc){
+    // if there is a last selected cell, then simply remove the selected class from it
             $(lsc).removeClass("selected-cell")
             }
             $(this).addClass("selected-cell");
+    // add the selected class to the current cell 
+    // and update the lsc with the current one....
             lsc = this;
             let rid = Number($(this).attr("rid"));
             let cid = Number($(this).attr("cid"));
+            if(db[rid][cid].bold=="normal"){
+                $("#bold").removeClass("highlight");
+            }
+            else if(db[rid][cid].bold=="bold"){
+                $("#bold").addClass("highlight");
+            }
+            if(db[rid][cid].underline=="none"){
+                $("#bold").removeClass("highlight2");
+            }
+            else if(db[rid][cid].underline=="underline"){
+                $("#bold").addClass("highlight2");
+            }
+            if(db[rid][cid].italic=="normal"){
+                $("#bold").removeClass("highlight3");
+            }
+            else if(db[rid][cid].italic=="italic"){
+                $("#bold").addClass("highlight3");
+            }
             let calpha = String.fromCharCode(cid + 65);
             $("#address-container").val(calpha + (rid + 1));
         })
@@ -26,20 +47,40 @@ $(document).ready(
 
         $(".new").on("click", function(){
         let rows = $(".row");
+        let q = 0;
+        let prev = []
+        if(db){
+            q = 1;
+        prevdb = db;
+        }
         db=[];
         for(let i=0;i<rows.length;i++){
             let row = [];
             let cells = $(rows[i]).find(".cell")
             for(let j=0;j<cells.length;j++){
-                $(cells[j]).html("");
                 let cell = {
                         val:"" ,
                         formula:"",
                         bold : "normal",
+                        underline : "none",
+                        italic : "normal",
+                        textcolor : "black",
+                        bgcolor : "white",
+                        align : "left",
                         children:[],
                         parent:[]
                            };
                 row.push(cell);
+                $(cells[j]).html("");
+                $(cells[j]).css("font-weight","normal");
+                $(cells[j]).css("text-decoration","none");
+                $(cells[j]).css("font-style","normal");
+                $(cells[j]).css("color","black");
+                $(cells[j]).css("background-color","white");
+                $(cells[j]).css("text-align","left");
+                if( q==1 && prevdb[i][j].val!=""){
+                    $(cells[j]).keydown();
+                }
             }
             db.push(row);
         }
@@ -56,9 +97,18 @@ $(document).ready(
         for(let i=0;i<rows.length;i++){
             let cells = $(rows[i]).find(".cell");
             for(let j=0;j<cells.length;j++){
-                $(cells[j]).html(dbs[i][j].val);
+                let cellObject = dbs[i][j];
+                $(cells[j]).html(cellObject.val);
+                $(cells[j]).css("font-weight",cellObject.bold);
+                $(cells[j]).css("text-decoration",cellObject.underline);
+                $(cells[j]).css("font-style",cellObject.italic);
+                $(cells[j]).css("text-align",cellObject.align);
+                if(dbs[i][j].val!=""){
+                $(cells[j]).keydown();
+                }
             }
         }
+        
          })
         $(".cell-container").on("scroll",function(){
         //scroll left fn....(this gives us the value(in pxl)scrolled in the horizontal direction)
@@ -179,9 +229,32 @@ $(document).ready(
         // if the class is already added, then it is removed and vice versa
         let isBold = $(this).hasClass("highlight")
         // it returns whether the bold is already pressed or not
+        // if it is true this means bold has to be applied on the text
         $(".grid .cell.selected-cell").css("font-weight",(isBold)?"bold":"normal")
+        let ele = $(".grid .cell.selected-cell")
+        let {rowid,colid} = getrcFromElement(ele); 
+        let cellObject = db[rowid][colid]
+        cellObject.bold = (isBold)?"bold":"normal"
         })   
-
+        $("#underline").on("click",function(){
+            $(this).toggleClass("highlight2");
+            let isUnderline = $(this).hasClass("highlight2");
+            $(".grid .cell.selected-cell").css("text-decoration",(isUnderline)?"underline":"none")
+            let ele = $(".grid .cell.selected-cell")
+            let {rowid,colid} = getrcFromElement(ele); 
+            let cellObject = db[rowid][colid]
+            cellObject.underline = (isUnderline)? "underline":"none";
+        })
+        $("#italic").on("click",function(){
+            $(this).toggleClass("highlight3");
+            let isItalic = $(this).hasClass("highlight3");
+            $(".grid .cell.selected-cell").css("font-style",(isItalic)?"italic":"normal")
+            let ele = $(".grid .cell.selected-cell")
+            let {rowid,colid} = getrcFromElement(ele); 
+            let cellObject = db[rowid][colid]
+            cellObject.italic = (isItalic)? "italic":"normal";
+        })
+        
         $(".grid .cell").on("keydown",function(){
             let height = $(this).outerHeight();
             let rowid = $(this).attr("rid");
@@ -189,8 +262,15 @@ $(document).ready(
             let mycol = leftcol[rowid];
             $(mycol).css("height",height);
         })
-        
-
+        function getrcFromElement(ele){
+        let rowid = $(ele).attr("rid")
+        let colid = $(ele).attr("cid")
+        return {rowid,colid}
+        }
+        // underline ----> same as bold
+        // italic ---->  "  "  "  "  "  "
+        // select -----on change .val set
+        //color -----on click .val
         function init(){
             $("#file").click();
             $(".new").trigger("click");
