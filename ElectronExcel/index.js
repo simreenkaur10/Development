@@ -1,6 +1,7 @@
 const $ = require("jquery");
 const dialog = require("electron").remote.dialog;
 let fs = require("fs");
+const { BrowserWindow } = require("electron");
 $(document).ready(
     function (){
         let db;
@@ -146,6 +147,19 @@ $(document).ready(
         if(formula==cellObject.formula){
             return;
         }
+        if(checkLoop(formula,rowid,colid)==true){
+              const window = BrowserWindow.getFocusedWindow;
+              dialog.showMessageBox(window,{
+                  title:  'Not responding',
+                  buttons: ['Dismiss'],
+                  type: 'warning',
+                  message: 'Application not Responding',
+              })
+            //   dialog.showMessageBox(null, options, (response, checkboxChecked) => {
+            //     console.log(response);
+            //   });
+              return;
+        }
         removeFormula(rowid,colid)
         // fetch the cell object from database
         cellObject.formula = formula;
@@ -154,6 +168,22 @@ $(document).ready(
         let ans = evaluate(cellObject);
         updateCellInformation(cellObject,ans,rowid,colid);
         })
+        function checkLoop(formula,rowid,colid){
+            let components = formula.split(" ");
+            for(let i=0;i<components.length;i++){
+            let charCode = components[i].charCodeAt(0);
+            if(charCode>=65 && charCode<=90){
+                let parentRC = getRowColFromAlphabet(components[i]);
+                let parentObject = db[parentRC.rowid][parentRC.colid];
+                let parentsParent = parentObject.parent;
+                if(parentsParent.includes({rowid,colid})){
+                console.log("loop exists");
+                return true;
+                }
+            }
+        }
+        return false;    
+        }
         function fillParentAndChildren(formula,rowid,colid){
         // ( A1 + A2 )
         //we will split it and then we will get these tokens

@@ -6,25 +6,26 @@ head,body{
     box-sizing: border-box;
  }
 
-.menu{
+ .menu {
     height: 25px;
-    border: 1px solid red;
-    background-color: peachpuff;
+    border: 1px solid #607560;
+    background-color: #567557
  }
-.ib{
+.ib {
     display: inline-block;
-    width: 40px;
+    width: 50px;
+    font-size: large;
     text-align: center;
     cursor: pointer;
 }
 .ib:hover{
-    background-color: tan;
-    border: thin solid gold;
+    background-color: rgb(34, 110, 34);
+    border: thin solid rgb(10, 66, 27);
 }
 .menu-options {
-        height: 65px;
-        border: 1px solid coral;
-        background-color: #8fe62a;
+    height: 65px;
+    background-color: #8fe62a;
+    background-image: linear-gradient(45deg, #b8bf71 0%, #272f1e 100%);
 }
 .menu-options-item{
     display: none;
@@ -65,34 +66,38 @@ input[type="button"] {
     background-color: greenyellow;
 }
 .formula-bar {
+    display: flex;
+    align-items: center;
     height: 26px;
-    border: 1px solid #673AB7;
-    background-color: #7ecccc;
+    background-color: #8b9a7a;
 }
-input[type="text"]{
-    background-color:  #e6e6e6;
+input[type="text"] {
+    background-color: #e6e6e6;
+    height: 88%;
+    width: 29%;
+    margin-left: 28px;
 }
 .cell-container {
     height: calc(100vh - 146px);
-    border: 2px solid #9C27B0;
     background-color: rgb(255, 255, 255);
     overflow: auto;
     position: relative;
 }
 .top-left-cell {
-    height : 25px;
-    width : 25px;
-    border : 1px solid;
-    z-index : 5;
-    position : absolute;
-    left : 0px;
-    top : 0px;
-    background-color : rgb(233, 194, 88);
+    height: 25px;
+    width: 25px;
+    border: 1px solid;
+    border-radius: -10px;
+    z-index: 5;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: rgb(97, 91, 78);
 }
 .top-row {
     display: flex;
     position: absolute;
-    background-color: antiquewhite;
+    background-color: #65794d;
     left: 25px;
     z-index: 2;
     top: 0px;
@@ -113,7 +118,7 @@ input[type="text"]{
     width: 25px;
     border: 1px solid black;
     text-align: center;
-    background-color: burlywood;
+    background-color: #65794d;
 }
 .grid{
     position: absolute;
@@ -132,7 +137,6 @@ input[type="text"]{
 }
 .sheets {
     height: 22px;
-    border: 1px solid blue;
-    background-color: rgb(205, 63, 129);
-    color:blue;
+    border: 1px solid #717779;
+    background-color: rgb(93, 88, 90);
 }
